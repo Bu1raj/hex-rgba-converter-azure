@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex to RGBA Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hex to RGBA Converter</h1>
+        <form id="hexForm">
+            <label for="hexCode">Enter Hex Code:</label>
+            <input type="text" id="hexCode" name="hexCode" placeholder="#FF5733" required>
+            <button type="button" id="convertButton">Get RGBA Code</button>
+        </form>
+        <label for="rgbaCode">RGBA Code:</label>
+        <div class="loader-container">
+            <input type="text" id="rgbaCode" readonly>
+            <div class="loader" id="loader"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('convertButton').addEventListener('click', async () => {
+            const hexCode = document.getElementById('hexCode').value;
+            const rgbaCodeInput = document.getElementById('rgbaCode');
+            const loader = document.getElementById('loader');
+            
+            loader.style.display = 'inline-block';
+            rgbaCodeInput.value = '';
+            
+            try {
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ hexColor: hexCode })
+                });
+                const result = await response.json();
+                rgbaCodeInput.value = `rgba(${result.rgba.r}, ${result.rgba.g}, ${result.rgba.b}, ${result.rgba.a})`;
+            } catch (error) {
+                rgbaCodeInput.value = 'Error fetching RGBA';
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
