@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const PORT = 3000;
+const PORT = 8080;
 const FunctionURL = "https://bu1rajazuredemo.azurewebsites.net/api/funcColorCodeConverter?code=sNoS6-8GlB6-YqXgqhtpfP9MBFfhU3BZ0J6N8kHRz5zYAzFuufjZ3A%3D%3D"
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
